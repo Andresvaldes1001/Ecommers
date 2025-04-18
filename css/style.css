@@ -1,0 +1,27 @@
+.card-img-top {
+  object-fit: contain;
+  height: 250px;
+  background-color: #fff; /* Fondo blanco por si la imagen tiene transparencia */
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.input-group {
+  width: 100%;
+  max-width: 400px; /* Tamaño deseado del buscador */
+}
+
+.custom-search {
+  border: 2px solid #555 !important;
+  border-radius: 10px 0 0 10px !important;
+}
+
+.btn-outline-secondary {
+  border: 2px solid #555 !important;
+  border-left: none !important;
+  border-radius: 0 10px 10px 0 !important;
+}
