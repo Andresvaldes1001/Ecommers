@@ -5,6 +5,11 @@ const CART_KEY = 'cart'
 export function getCart() {
   return JSON.parse(localStorage.getItem(CART_KEY)) || []
 }
+export function updateCartCounter(){
+  let quantity = getCart();
+  let cantidadCarrito = document.getElementById('cart-count');
+  cantidadCarrito.innerHTML = quantity.length; 
+}
 
 // Guardar carrito en localStorage
 export function saveCart(cart) {
@@ -50,10 +55,12 @@ export function removeFromCart(id) {
   const cart = getCart().filter(i => i.id !== id)
   saveCart(cart)
   dispatchCartUpdated(cart)
+  updateCartCounter()
 }
 
 // Vaciar todo el carrito
 export function clearCart() {
   saveCart([])
   dispatchCartUpdated([])
+  updateCartCounter()
 }

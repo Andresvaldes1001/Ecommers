@@ -1,9 +1,14 @@
-fetch('https://fakestoreapi.com/products')
+import { addToCart, updateCartCounter } from '../js/cartService.js'
+
+
+async function fetchAndRenderProducts() {
+    fetch('https://fakestoreapi.com/products')
     .then(res=>res.json())
     .then(data=>{
         rederizarPaginaConProductos(data)
-        renderizarCart()
     })
+}
+
 
 function rederizarPaginaConProductos(data){
     let section = document.getElementById('productos');
@@ -12,10 +17,12 @@ function rederizarPaginaConProductos(data){
     console.log(productos)
     productos.forEach((producto) => {
 
-        let contenedor = document.createElement('div');
+        let contenedor = '';
+        contenedor = document.createElement('div');
         contenedor.classList.add('col-12');
         contenedor.classList.add('col-sm-6');
         contenedor.classList.add('col-md-4');
+        contenedor.classList.add('contenedores_productos');
 
         contenedor.innerHTML = `
           <div class="card h-100 shadow-sm">
@@ -27,45 +34,60 @@ function rederizarPaginaConProductos(data){
             <div class="card-body">
               <h5 class="card-title">${producto.title}</h5>
               <p class="card-text">$ ${producto.price}</p>
-              <button class="btn btn-primary w-100" id="verDetalle">Ver detalles</button>
+              <button class="btn btn-primary w-100" id="verDetalle${producto.id}">Ver detalles</button>
             </div>
           </div>`;
-        contenedor.classList.add('contenedores_productos');
-    
-         
-    
         section.appendChild(contenedor);
+    
+        let showDetails = document.getElementById(`verDetalle${producto.id}`)
+        showDetails.onclick = () => mostrarDetalles(producto);
     })
+    updateCartCounter()
 }
 
-function renderizarCart(){
-    let sectionC = document.getElementById('sizeDown');
-console.log(sectionC)
-    let cart = document.createElement('div');
+function mostrarDetalles(producto){
+    console.log("entro")
 
-    cart.innerHTML = `
-            <div id="ocultar" class="hidde">
-                <p>Cart en progreso</p>
-            </div>`;
-    sectionC.appendChild(cart)
-}
+    let sectionModal = document.getElementById('myModal');
+    sectionModal.innerHTML = '';
+    sectionModal.style.display = "block";
+   
+    console.log(sectionModal)
 
-function openCart(){
+    let modal = document.createElement('div');
 
-    let dom = document.getElementById("ocultar")
-    let dom2 = document.getElementById("sizeDown")
-    if(dom && dom2){
-        dom.classList.replace("hidde", "show");
-        dom2.classList.replace("oldSize","newSize")
-        dom.id = "mostrar"
-        dom2.id = "sizeUp"
-    }else{
-        let dom = document.getElementById("mostrar")
-        let dom2 = document.getElementById("sizeUp")
-        dom.classList.replace("show", "hidde");
-        dom2.classList.replace("newSize","oldSize")
-        dom.id = "ocultar"
-        dom2.id = "sizeDown"
+    modal.classList.add('modal-content');
+    modal.innerHTML = ` `
+    modal.innerHTML = `
+    <span class="close">&times;</span>
+    <div class="card h-100 shadow-sm">
+            <img
+              src="${producto.image}"
+              class="card-img-top img-fluid"
+              alt="${producto.title}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">${producto.title}</h5>
+              <h6 class="card-title">${producto.description}</h6>
+              <p class="card-text">$ ${producto.price}</p>
+              <button class="btn btn-primary w-100" id="addCarrito">Agregar al Carrito</button>
+            </div>
+          </div>
+    `;
+    modal.querySelector('button').onclick = () => {
+        addToCart(producto)
+        updateCartCounter()
+    }
+    sectionModal.appendChild(modal);
+    let span = document.getElementsByClassName("close")[0];
+    console.log(span)
+    span.onclick = () => sectionModal.style.display = "none";
+    window.onclick = function(event) {
+        if (event.target == sectionModal) {
+            sectionModal.style.display = "none";
+        }
     }
     
 }
+
+document.addEventListener('DOMContentLoaded', fetchAndRenderProducts)
