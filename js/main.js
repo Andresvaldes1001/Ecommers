@@ -11,7 +11,7 @@ async function fetchAndRenderProducts() {
 
 
 function rederizarPaginaConProductos(data){
-    let section = document.getElementById('productos');
+    let section = document.querySelector('#productos');
 
     let productos = data.filter(a => a.category !== "electronics")
     console.log(productos)
@@ -39,7 +39,7 @@ function rederizarPaginaConProductos(data){
           </div>`;
         section.appendChild(contenedor);
     
-        let showDetails = document.getElementById(`verDetalle${producto.id}`)
+        let showDetails = document.querySelector(`#verDetalle${producto.id}`)
         showDetails.onclick = () => mostrarDetalles(producto);
     })
     updateCartCounter()
@@ -48,7 +48,7 @@ function rederizarPaginaConProductos(data){
 function mostrarDetalles(producto){
     console.log("entro")
 
-    let sectionModal = document.getElementById('myModal');
+    let sectionModal = document.querySelector('#myModal');
     sectionModal.innerHTML = '';
     sectionModal.style.display = "block";
    

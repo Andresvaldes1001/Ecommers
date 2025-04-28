@@ -57,6 +57,10 @@ import {
   clearBtn.onclick = () => clearCart()
   checkoutBtn.onclick = () => {
     clearCart()
-    alert('¡Gracias por tu compra!')
-  }
+    Swal.fire({
+      title: "Compra realizada correctamente",
+      text: "La factura le llegara en breve",
+      icon: "success"
+    });
+      }
   

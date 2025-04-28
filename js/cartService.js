@@ -7,7 +7,7 @@ export function getCart() {
 }
 export function updateCartCounter(){
   let quantity = getCart();
-  let cantidadCarrito = document.getElementById('cart-count');
+  let cantidadCarrito = document.querySelector('#cart-count');
   cantidadCarrito.innerHTML = quantity.length; 
 }
 
@@ -35,6 +35,22 @@ export function addToCart(product) {
       image: product.image,
       quantity: 1
     })
+    const toast = Swal.mixin({
+      toast: true,
+      position: "top",
+      showConfirmButton: false,
+      timer: 3000,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+    toast.fire({
+      title: "Compra realizada correctamente",
+      text: "El producto fue agregado por primera vez al carrito correctamente",
+      icon: "success"
+    });
+    
   }
   saveCart(cart)
   dispatchCartUpdated(cart)
