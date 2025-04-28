@@ -1,17 +1,21 @@
 import { addToCart, updateCartCounter } from '../js/cartService.js'
 
+let allProducts = []; 
+
 
 async function fetchAndRenderProducts() {
     fetch('https://fakestoreapi.com/products')
     .then(res=>res.json())
     .then(data=>{
-        rederizarPaginaConProductos(data)
+        allProducts= data;
+        rederizarPaginaConProductos(allProducts)
     })
 }
 
 
 function rederizarPaginaConProductos(data){
     let section = document.querySelector('#productos');
+    section.innerHTML = "";
 
     let productos = data.filter(a => a.category !== "electronics")
     console.log(productos)
@@ -90,4 +94,43 @@ function mostrarDetalles(producto){
     
 }
 
-document.addEventListener('DOMContentLoaded', fetchAndRenderProducts)
+function setupSearchBar() {
+  const searchInput = document.querySelector('#searchInput');
+
+  searchInput.addEventListener('input', (event) => {
+      const searchText = event.target.value.toLowerCase();
+
+      if (searchText === "") {
+          rederizarPaginaConProductos(allProducts);
+      } else {
+          const filteredProducts = allProducts.filter(product =>
+              product.title.toLowerCase().includes(searchText)
+          );
+          rederizarPaginaConProductos(filteredProducts);
+      }
+  });
+}
+
+function setupSearchButton() {
+  const searchInput = document.getElementById('searchInput');
+  const searchButton = document.getElementById('btnBuscar');
+
+  searchButton.addEventListener('click', () => {
+      const searchText = searchInput.value.toLowerCase();
+
+      if (searchText === "") {
+          rederizarPaginaConProductos(allProducts);
+      } else {
+          const filteredProducts = allProducts.filter(product =>
+              product.title.toLowerCase().includes(searchText)
+          );
+          rederizarPaginaConProductos(filteredProducts);
+      }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetchAndRenderProducts();
+  setupSearchBar();     
+  setupSearchButton();  
+});
