@@ -14,10 +14,11 @@ async function fetchAndRenderProducts() {
 
 
 function rederizarPaginaConProductos(data){
+  if(data.length){
     let section = document.querySelector('#productos');
     section.innerHTML = "";
 
-    let productos = data.filter(a => a.category !== "electronics")
+    let productos = data
     console.log(productos)
     productos.forEach((producto) => {
 
@@ -47,6 +48,19 @@ function rederizarPaginaConProductos(data){
         showDetails.onclick = () => mostrarDetalles(producto);
     })
     updateCartCounter()
+  }else{
+    let section = document.querySelector('#productos');
+    section.innerHTML = "";
+    let contenedor = '';
+    contenedor = document.createElement('div');
+    contenedor.classList.add('col-12');
+    contenedor.classList.add('col-sm-6');
+    contenedor.classList.add('col-md-4');
+    contenedor.classList.add('contenedores_productos');
+    contenedor.innerHTML = `No hay productos con esa descripción`;
+    section.appendChild(contenedor);
+  }
+    
 }
 
 function mostrarDetalles(producto){
@@ -129,8 +143,25 @@ function setupSearchButton() {
   });
 }
 
+function changeCategory(){
+  const botones = document.querySelectorAll('.categoria');
+  botones.forEach(boton =>{
+    boton.addEventListener('click',()=>{
+      if(boton.id !== 'all'){
+        const categoria = boton.id
+        let filterProducts = allProducts.filter(p => p.category === categoria)
+        rederizarPaginaConProductos(filterProducts)
+      }else{
+        let filterProducts = allProducts
+        rederizarPaginaConProductos(filterProducts)
+      }
+    })
+  })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   fetchAndRenderProducts();
   setupSearchBar();     
   setupSearchButton();  
+  changeCategory();
 });

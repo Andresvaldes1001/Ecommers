@@ -1,10 +1,5 @@
 
-import {
-    getCart,
-    changeQuantity,
-    removeFromCart,
-    clearCart
-  } from '../js/cartService.js'
+import { getCart, changeQuantity, removeFromCart, clearCart } from '../js/cartService.js'
   
   // Seleccionar el contenedor del sidebar (o modal)
   const cartContainer = document.querySelector('#cart-container')

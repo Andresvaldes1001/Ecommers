@@ -82,5 +82,7 @@
   cursor: pointer;
 }
 #productos{
+  display: flex;
+  justify-content: center;
   margin: 0vw auto 0vw auto;
 }
