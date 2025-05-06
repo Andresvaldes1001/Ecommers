@@ -1,7 +1,6 @@
 
 const CART_KEY = 'cart'
 
-// Leer el carrito (o devolver array vacío)
 export function getCart() {
   return JSON.parse(localStorage.getItem(CART_KEY)) || []
 }
@@ -11,17 +10,14 @@ export function updateCartCounter(){
   cantidadCarrito.innerHTML = quantity.length; 
 }
 
-// Guardar carrito en localStorage
 export function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart))
 }
 
-// Emitir evento interno para notificar cambios
 function dispatchCartUpdated(cart) {
   document.dispatchEvent(new CustomEvent('cartUpdated', { detail: cart }))
 }
 
-// Agregar producto (si ya existe, suma 1 a quantity)
 export function addToCart(product) {
   const cart = getCart()
   const existing = cart.find(item => item.id === product.id)
@@ -56,7 +52,6 @@ export function addToCart(product) {
   dispatchCartUpdated(cart)
 }
 
-// Cambiar cantidad (+1 o –1)
 export function changeQuantity(id, delta) {
   const cart = getCart()
   const item = cart.find(i => i.id === id)
@@ -66,7 +61,6 @@ export function changeQuantity(id, delta) {
   dispatchCartUpdated(cart)
 }
 
-// Eliminar un producto completo
 export function removeFromCart(id) {
   const cart = getCart().filter(i => i.id !== id)
   saveCart(cart)
@@ -74,7 +68,6 @@ export function removeFromCart(id) {
   updateCartCounter()
 }
 
-// Vaciar todo el carrito
 export function clearCart() {
   saveCart([])
   dispatchCartUpdated([])
