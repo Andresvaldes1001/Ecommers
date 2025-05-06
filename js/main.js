@@ -143,7 +143,6 @@ function setupSearchButton() {
   });
 }
 
-function changeCategory(){
   const botones = document.querySelectorAll('.categoria');
   botones.forEach(boton =>{
     boton.addEventListener('click',()=>{
@@ -157,11 +156,10 @@ function changeCategory(){
       }
     })
   })
-}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchAndRenderProducts();
   setupSearchBar();     
   setupSearchButton();  
-  changeCategory();
 });
